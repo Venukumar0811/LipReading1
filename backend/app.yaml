@@ -1,0 +1,14 @@
+name: lip-reading-deployment
+runtime: python311
+
+build:
+  builder: google.python
+  env: standard
+
+env: standard
+entrypoint: gunicorn -w 1 -b 0.0.0.0:8080 -k uvicorn.workers.UvicornWorker main:app
+
+env_variables:
+  ALLOWED_ORIGINS: "https://yourdomain.com,https://www.yourdomain.com"
+  DEVICE: "cpu"
+  LOG_LEVEL: "info"

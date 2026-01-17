@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - ALLOWED_ORIGINS=http://localhost:3000
+      - DEVICE=cpu
+      - LOG_LEVEL=info
+    volumes:
+      - ./backend:/app
+    command: python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - lip-reading-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_BACKEND_URL=http://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - lip-reading-network
+    command: npm start
+
+networks:
+  lip-reading-network:
+    driver: bridge

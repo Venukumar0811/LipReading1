@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: lip-reading-backend
+    runtime: python
+    pythonVersion: 3.11
+    buildCommand: pip install -r requirements-prod.txt
+    startCommand: gunicorn -w 1 -b 0.0.0.0:8080 -k uvicorn.workers.UvicornWorker main:app
+    rootDir: backend
+    envVars:
+      - key: ALLOWED_ORIGINS
+        scope: all
+        value: https://lip-reading-frontend.onrender.com
+      - key: DEVICE
+        value: cpu
+      - key: LOG_LEVEL
+        value: info
+      - key: PORT
+        value: 8080
+
+  - type: static_site
+    name: lip-reading-frontend
+    buildCommand: npm run build
+    staticPublishPath: build
+    envVars:
+      - key: REACT_APP_BACKEND_URL
+        scope: all
+        value: https://lip-reading-backend.onrender.com
