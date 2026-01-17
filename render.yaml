@@ -14,8 +14,8 @@ services:
         value: cpu
       - key: LOG_LEVEL
         value: info
-      - key: PORT
-        value: 8080
+      - key: PYTHONUNBUFFERED
+        value: "1"
 
   - type: static_site
     name: lip-reading-frontend

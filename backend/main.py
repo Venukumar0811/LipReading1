@@ -39,7 +39,8 @@ app.add_middleware(
 
 # Initialize models
 face_detector = FaceAndLipDetector()
-lip_reading_model = LipReadingModel(device="cpu")  # Use "cuda" if GPU available
+device = os.getenv("DEVICE", "cpu")  # Default to CPU if not specified
+lip_reading_model = LipReadingModel(device=device)  # Use "cuda" if GPU available
 
 # Frame history for sequence prediction
 frame_history = []
@@ -162,9 +163,10 @@ async def root():
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))
+    log_level = os.getenv("LOG_LEVEL", "info")
     uvicorn.run(
         app,
         host="0.0.0.0",
         port=port,
-        log_level="info",
+        log_level=log_level,
     )
