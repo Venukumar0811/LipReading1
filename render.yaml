@@ -3,7 +3,7 @@ services:
     name: lip-reading-backend
     runtime: python
     pythonVersion: "3.11"
-    buildCommand: pip install --upgrade pip setuptools wheel && pip install -r requirements.txt
+    buildCommand: pip install --upgrade pip setuptools wheel && pip install -r requirements-prod.txt
     startCommand: gunicorn -w 1 -b 0.0.0.0:8080 -k uvicorn.workers.UvicornWorker main:app
     rootDir: backend
     envVars:
