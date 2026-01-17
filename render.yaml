@@ -2,7 +2,7 @@ services:
   - type: web
     name: lip-reading-backend
     runtime: python
-    pythonVersion: 3.11
+    pythonVersion: 3.11.0
     buildCommand: pip install -r requirements-prod.txt
     startCommand: gunicorn -w 1 -b 0.0.0.0:8080 -k uvicorn.workers.UvicornWorker main:app
     rootDir: backend
