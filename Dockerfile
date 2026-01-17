@@ -4,13 +4,17 @@ FROM python:3.11-slim as backend-builder
 
 WORKDIR /app
 
-COPY backend/requirements.txt .
 COPY backend/requirements-prod.txt .
 
-RUN pip install --no-cache-dir -r requirements-prod.txt
+RUN pip install --upgrade pip setuptools wheel && \
+    pip install --no-cache-dir -r requirements-prod.txt
 
 COPY backend/ .
 
-EXPOSE 8000
+EXPOSE 8080
 
-CMD ["gunicorn", "-w", "1", "-b", "0.0.0.0:8000", "-k", "uvicorn.workers.UvicornWorker", "main:app"]
+ENV PORT=8080 \
+    PYTHONUNBUFFERED=1 \
+    DEVICE=cpu
+
+CMD ["gunicorn", "-w", "1", "-b", "0.0.0.0:8080", "-k", "uvicorn.workers.UvicornWorker", "main:app"]
