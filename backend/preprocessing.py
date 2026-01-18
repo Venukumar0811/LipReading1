@@ -1,7 +1,8 @@
 import cv2
 import numpy as np
-from mediapipe.python.solutions import face_detection
 import mediapipe as mp
+from mediapipe.tasks import python
+from mediapipe.tasks.python import vision
 
 
 class FaceAndLipDetector:
@@ -10,7 +11,8 @@ class FaceAndLipDetector:
     """
 
     def __init__(self):
-        self.face_detection = face_detection.FaceDetection(
+        # Use MediaPipe Face Detection through the solutions API
+        self.face_detection = mp.solutions.face_detection.FaceDetection(
             model_selection=1, min_detection_confidence=0.5
         )
         self.mp_drawing = mp.solutions.drawing_utils
